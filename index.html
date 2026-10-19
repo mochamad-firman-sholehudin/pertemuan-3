@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusat Solusi Perhitungan Ilmiah</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="app-viewport">
+        <!-- App Info Header -->
+        <header class="app-info-bar">
+            <div class="app-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-atom"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title">Solusi Ilmiah</h1>
+                    <p class="brand-subtitle">Aplikasi Perhitungan Fisika & Sains Praktis</p>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <!-- Navigasi Filter Kategori -->
+                <nav class="category-nav">
+                    <button class="nav-btn active" onclick="filterCategory('all', this)">Semua Modul</button>
+                    <button class="nav-btn" onclick="filterCategory('kinetik', this)">Energi</button>
+                    <button class="nav-btn" onclick="filterCategory('kinematika', this)">Kinematika</button>
+                    <button class="nav-btn" onclick="filterCategory('suhu', this)">Suhu</button>
+                </nav>
+                <div class="badge">
+                    <span class="badge-dot"></span> Pemrograman Web
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Grid Container -->
+        <div class="dashboard-grid">
+
+            <!-- Card 1: Energi Kinetik -->
+            <section class="card" data-category="kinetik">
+                <div class="card-header">
+                    <div class="card-title-wrapper">
+                        <i class="fa-solid fa-bolt card-icon"></i>
+                        <h2 class="card-title">Hitung Energi Kinetik (Ek)</h2>
+                    </div>
+                    <p class="card-description">Hitung energi gerak benda berdasarkan massa dan kecepatannya.</p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="massa">MASSA (KG)</label>
+                        <input type="number" id="massa" placeholder="Contoh: 10" step="any" min="0" oninput="hitungEk()">
+                    </div>
+                    <div class="form-group">
+                        <label for="kecepatan">KECEPATAN (M/S)</label>
+                        <input type="number" id="kecepatan" placeholder="Contoh: 5" step="any" min="0" oninput="hitungEk()">
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="hitungEk()">
+                    <i class="fa-solid fa-calculator"></i> Hitung Energi Kinetik
+                </button>
+
+                <div class="result-box hidden" id="resultEk">
+                    <span class="result-label">Hasil Energi Kinetik:</span>
+                    <span class="result-value" id="valEk">0 Joule</span>
+                    <p class="result-formula" id="formulaEk"></p>
+                </div>
+            </section>
+
+            <!-- Card 2: Kecepatan, Jarak & Waktu -->
+            <section class="card" data-category="kinematika">
+                <div class="card-header">
+                    <div class="card-title-wrapper">
+                        <i class="fa-solid fa-gauge-high card-icon"></i>
+                        <h2 class="card-title">Hitung Kinematika</h2>
+                    </div>
+                    <p class="card-description">Solusi variabel gerak lurus beraturan (s, v, t) secara akurat.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="pilihanKinematika">VARIABEL YANG DICARI</label>
+                    <select id="pilihanKinematika" onchange="updateFormKinematika()">
+                        <option value="v">Kecepatan (v = s / t)</option>
+                        <option value="s">Jarak (s = v × t)</option>
+                        <option value="t">Waktu (t = s / v)</option>
+                    </select>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group" id="groupInput1">
+                        <label id="labelInput1" for="input1">JARAK (S) DALAM METER</label>
+                        <input type="number" id="input1" placeholder="Masukkan jarak..." step="any" oninput="hitungKinematika()">
+                    </div>
+                    <div class="form-group" id="groupInput2">
+                        <label id="labelInput2" for="input2">WAKTU (T) DALAM DETIK</label>
+                        <input type="number" id="input2" placeholder="Masukkan waktu..." step="any" oninput="hitungKinematika()">
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="hitungKinematika()">
+                    <i class="fa-solid fa-square-root-variable"></i> Hitung Kinematika
+                </button>
+
+                <div class="result-box hidden" id="resultKinematika">
+                    <span class="result-label">Hasil Perhitungan:</span>
+                    <span class="result-value" id="valKinematika">0</span>
+                    <p class="result-formula" id="formulaKinematika"></p>
+                </div>
+            </section>
+
+            <!-- Card 3: Konversi Suhu -->
+            <section class="card full-width-laptop" data-category="suhu">
+                <div class="card-header">
+                    <div class="card-title-wrapper">
+                        <i class="fa-solid fa-temperature-three-quarters card-icon"></i>
+                        <h2 class="card-title">Konversi Suhu Lengkap</h2>
+                    </div>
+                    <p class="card-description">Masukkan skala Celsius (°C) untuk konversi instan ke Fahrenheit, Kelvin, dan Reamur.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="celsius">SUHU (°C)</label>
+                    <input type="number" id="celsius" placeholder="Contoh: 36.5" step="any" oninput="konversiSuhu()">
+                </div>
+
+                <button class="btn-primary" onclick="konversiSuhu()">
+                    <i class="fa-solid fa-arrows-rotate"></i> Konversi Suhu
+                </button>
+
+                <div class="result-box hidden" id="resultSuhu">
+                    <span class="result-label">Hasil Konversi Suhu:</span>
+                    <div class="multi-results">
+                        <div class="result-pill">
+                            <span>Fahrenheit (°F)</span>
+                            <strong id="valFahrenheit">0 °F</strong>
+                        </div>
+                        <div class="result-pill">
+                            <span>Kelvin (K)</span>
+                            <strong id="valKelvin">0 K</strong>
+                        </div>
+                        <div class="result-pill">
+                            <span>Reamur (°R)</span>
+                            <strong id="valReamur">0 °R</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Modal Dialog Custom -->
+    <div class="modal-overlay" id="customModal">
+        <div class="modal-card">
+            <i class="fa-solid fa-triangle-exclamation modal-icon"></i>
+            <h3 class="modal-title">Input Tidak Valid</h3>
+            <p class="modal-text" id="modalMessage">Mohon periksa kembali input angka Anda.</p>
+            <button class="modal-btn" onclick="closeModal()">Paham</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
